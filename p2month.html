@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booked & Busy — Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <div class="calendar-card" id="calendarCard">
+      <header class="calendar-header">
+        <div class="header-left">
+          <div class="month-display">
+            <span class="month-text">February</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <nav class="view-selector" aria-label="Calendar views">
+            <a href="p1year.html" class="view-button">Year</a>
+            <span class="view-separator">|</span>
+            <a href="p2month.html" class="view-button active" aria-current="page">Month</a>
+            <span class="view-separator">|</span>
+            <a href="p3week.html" class="view-button">Week</a>
+            <span class="view-separator">|</span>
+            <a href="p4day.html" class="view-button">Day</a>
+          </nav>
+
+          <button class="customize-button" id="customizeToggle" type="button">Customize</button>
+        </div>
+
+        <div class="header-right">
+          <button class="icon-button" id="searchButton" type="button" aria-label="Search">
+            <img src="images/search-icon.svg" alt="" class="icon-img">
+          </button>
+
+          <div class="menu-wrap">
+            <button class="icon-button add-icon" id="addMenuToggle" type="button" aria-label="Open add menu" aria-expanded="false">
+              <span>+</span>
+            </button>
+
+            <div class="quick-menu hidden" id="quickMenu">
+              <button class="quick-menu-item" type="button">Add Tasks</button>
+              <button class="quick-menu-item" type="button">Add Reminders</button>
+              <button class="quick-menu-item" type="button">Add Collaborators</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="customize-panel hidden" id="customizePanel" aria-label="Customize calendar">
+        <div class="customize-grid">
+          <div class="customize-section">
+            <label for="backgroundImageUpload">Upload Background Image</label>
+            <input type="file" id="backgroundImageUpload" accept="image/*">
+            <p class="hint">Choose an image for the pink outer background.</p>
+          </div>
+
+          <div class="customize-section">
+            <label for="backgroundColorPicker">App Background Color</label>
+            <div class="picker-row">
+              <input type="color" id="backgroundColorPicker" value="#efbfd2">
+              <span id="backgroundColorValue">#efbfd2</span>
+            </div>
+          </div>
+
+          <div class="customize-section">
+            <label for="cardBorderPicker">Calendar Border Color</label>
+            <div class="picker-row">
+              <input type="color" id="cardBorderPicker" value="#e7b5ca">
+              <span id="cardBorderValue">#e7b5ca</span>
+            </div>
+          </div>
+
+          <div class="customize-section">
+            <label for="buttonColorPicker">Button Color</label>
+            <div class="picker-row">
+              <input type="color" id="buttonColorPicker" value="#ffffff">
+              <span id="buttonColorValue">#ffffff</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-area">
+          <span class="preview-label">Live Preview</span>
+          <div class="preview-swatch" id="previewSwatch"></div>
+        </div>
+
+        <div class="calendar-footer hidden" id="calendarFooter">
+          <button class="footer-button discard-btn" id="discardBtn" type="button">Discard Customization</button>
+          <button class="footer-button save-btn" id="saveBtn" type="button">Save Customization</button>
+        </div>
+      </section>
+
+      <section class="calendar-layout">
+        <div class="day-headers">
+          <div class="day-header">Sunday</div>
+          <div class="day-header">Monday</div>
+          <div class="day-header">Tuesday</div>
+          <div class="day-header">Wednesday</div>
+          <div class="day-header">Thursday</div>
+          <div class="day-header">Friday</div>
+          <div class="day-header">Saturday</div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </section>
+    </div>
+  </div>
+
+  <script src="js/calendar.js"></script>
+</body>
+</html>
