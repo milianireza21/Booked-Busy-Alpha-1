@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booked & Busy — Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/calendar-switcher.css">
+</head>
+<body>
+  <div class="app-shell" id="appShell" data-page="month">
+    <div class="calendar-card" id="calendarCard">
+      <header class="calendar-header">
+        <div class="header-left">
+          <a href="index.html" class="home-link">← Home</a>
+          <div class="month-display" id="monthDisplay">
+            <button type="button" class="month-selector" id="monthSelector">
+              <span class="month-text" id="monthLabel">February</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill: currentColor;">
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </button>
+            <div class="month-dropdown hidden" id="monthDropdown">
+              <div class="dropdown-header">Select Month</div>
+              <button type="button" class="dropdown-item" data-month="2026-01">January</button>
+              <button type="button" class="dropdown-item" data-month="2026-02">February</button>
+              <button type="button" class="dropdown-item" data-month="2026-03">March</button>
+              <button type="button" class="dropdown-item" data-month="2026-04">April</button>
+              <button type="button" class="dropdown-item" data-month="2026-05">May</button>
+              <button type="button" class="dropdown-item" data-month="2026-06">June</button>
+              <button type="button" class="dropdown-item" data-month="2026-07">July</button>
+              <button type="button" class="dropdown-item" data-month="2026-08">August</button>
+              <button type="button" class="dropdown-item" data-month="2026-09">September</button>
+              <button type="button" class="dropdown-item" data-month="2026-10">October</button>
+              <button type="button" class="dropdown-item" data-month="2026-11">November</button>
+              <button type="button" class="dropdown-item" data-month="2026-12">December</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <nav class="view-selector" aria-label="Calendar views">
+            <a href="p1year.html" class="view-button">Year</a>
+            <span class="view-separator">|</span>
+            <a href="p2month.html" class="view-button active" aria-current="page">Month</a>
+            <span class="view-separator">|</span>
+            <a href="p3week.html" class="view-button">Week</a>
+            <span class="view-separator">|</span>
+            <a href="p4day.html" class="view-button">Day</a>
+          </nav>
+
+          <button class="calendar-switcher-btn" id="calendarSwitcherToggle" type="button" title="Switch calendar">📅</button>
+          <button class="customize-button" id="customizeToggle" type="button">Customize</button>
+        </div>
+
+        <div class="header-right">
+          <button class="icon-button" id="searchButton" type="button" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="icon-img">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"></circle>
+              <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+            </svg>
+          </button>
+
+          <div class="menu-wrap">
+            <button class="icon-button add-icon" id="addMenuToggle" type="button" aria-label="Open add menu" aria-expanded="false">
+              <span>+</span>
+            </button>
+
+            <div class="quick-menu hidden" id="quickMenu">
+              <button class="quick-menu-item" type="button" data-add-type="task">Add Task</button>
+              <button class="quick-menu-item" type="button" data-add-type="reminder">Add Reminder</button>
+              <button class="quick-menu-item" type="button" data-add-type="collaborator">Add Collaborator</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Calendar Switcher Panel -->
+      <section class="calendar-switcher-panel hidden" id="calendarSwitcherPanel" aria-label="Calendar management">
+        <div class="calendar-switcher-header">
+          <h3>My Calendars</h3>
+          <button class="calendar-add-btn" id="addCalendarBtn" type="button" title="Create new calendar">+</button>
+        </div>
+        <div class="calendar-list" id="calendarList"></div>
+        <div class="calendar-switcher-footer">
+          <input type="text" id="newCalendarName" class="new-calendar-input hidden" placeholder="Calendar name" maxlength="30">
+          <button class="calendar-confirm-btn hidden" id="confirmCalendarBtn" type="button">Create</button>
+        </div>
+      </section>
+
+      <section class="customize-panel hidden" id="customizePanel" aria-label="Customize calendar">
+        <!-- Themes Section -->
+        <div class="customize-subsection">
+          <h3>Themes</h3>
+          <div class="themes-grid">
+            <button type="button" class="theme-button" data-theme="default">
+              <div class="theme-preview" style="background: linear-gradient(135deg, #f4d7e5, #efbfd2);"></div>
+              <span>Soft Pink</span>
+            </button>
+            <button type="button" class="theme-button" data-theme="darkMode">
+              <div class="theme-preview" style="background: linear-gradient(135deg, #1a1520, #3d2e42);"></div>
+              <span>Dark Mode</span>
+            </button>
+            <button type="button" class="theme-button" data-theme="sageGreen">
+              <div class="theme-preview" style="background: linear-gradient(135deg, #c8dcc8, #a8bda8);"></div>
+              <span>Sage Green</span>
+            </button>
+            <button type="button" class="theme-button" data-theme="softAesthetic">
+              <div class="theme-preview" style="background: linear-gradient(135deg, #e8d4e8, #d4b8d4);"></div>
+              <span>Soft Aesthetic</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Custom Colors Section -->
+        <div class="customize-subsection">
+          <h3>Custom Colors</h3>
+          <div class="customize-grid">
+            <div class="customize-section">
+              <label for="backgroundImageUpload">Upload Background Image</label>
+              <input type="file" id="backgroundImageUpload" accept="image/*">
+              <p class="hint">Choose an image for the pink outer background.</p>
+            </div>
+
+            <div class="customize-section">
+              <label for="backgroundColorPicker">App Background Color</label>
+              <div class="picker-row">
+                <input type="color" id="backgroundColorPicker" value="#efbfd2">
+                <span id="backgroundColorValue">#efbfd2</span>
+              </div>
+            </div>
+
+            <div class="customize-section">
+              <label for="cardBorderPicker">Calendar Border Color</label>
+              <div class="picker-row">
+                <input type="color" id="cardBorderPicker" value="#e7b5ca">
+                <span id="cardBorderValue">#e7b5ca</span>
+              </div>
+            </div>
+
+            <div class="customize-section">
+              <label for="buttonColorPicker">Button Color</label>
+              <div class="picker-row">
+                <input type="color" id="buttonColorPicker" value="#ffffff">
+                <span id="buttonColorValue">#ffffff</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Holiday Preferences Section -->
+        <div class="customize-subsection">
+          <h3>Holiday Settings</h3>
+          <p class="hint">Toggle holiday categories to display them on your calendar</p>
+          <div class="holiday-toggles">
+            <label class="toggle-item">
+              <input type="checkbox" id="holidayFederal" class="holiday-toggle" data-category="federal" checked>
+              <span>🇺🇸 U.S. Federal Holidays</span>
+            </label>
+            <label class="toggle-item">
+              <input type="checkbox" id="holidayObservances" class="holiday-toggle" data-category="observances" checked>
+              <span>📅 Major U.S. Observances</span>
+            </label>
+            <label class="toggle-item">
+              <input type="checkbox" id="holidayInternational" class="holiday-toggle" data-category="international">
+              <span>🌍 International Holidays</span>
+            </label>
+            <label class="toggle-item">
+              <input type="checkbox" id="holidayReligious" class="holiday-toggle" data-category="religious">
+              <span>✝️ Religious Holidays</span>
+            </label>
+            <label class="toggle-item">
+              <input type="checkbox" id="holidayAcademic" class="holiday-toggle" data-category="academic">
+              <span>🎓 Academic Calendar</span>
+            </label>
+            <label class="toggle-item">
+              <input type="checkbox" id="holidayBusiness" class="holiday-toggle" data-category="business">
+              <span>💼 Work/Business Dates</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="preview-area">
+          <span class="preview-label">Live Preview</span>
+          <div class="preview-swatch" id="previewSwatch"></div>
+        </div>
+
+        <div class="calendar-footer" id="calendarFooter">
+          <button class="footer-button revert-btn" id="revertBtn" type="button">Revert to Original</button>
+          <button class="footer-button discard-btn" id="discardBtn" type="button">Discard Customization</button>
+          <button class="footer-button save-btn" id="saveBtn" type="button">Save Customization</button>
+        </div>
+      </section>
+
+      <section class="calendar-layout">
+        <div class="filter-section">
+          <span class="filter-label">Filter by Priority:</span>
+          <button type="button" class="priority-filter-btn" data-priority-filter="high" style="border-left: 3px solid #ff6b6b;">High</button>
+          <button type="button" class="priority-filter-btn" data-priority-filter="medium" style="border-left: 3px solid #ffd93d;">Medium</button>
+          <button type="button" class="priority-filter-btn" data-priority-filter="low" style="border-left: 3px solid #6bcf7f;">Low</button>
+        </div>
+
+        <div class="day-headers">
+          <div class="day-header">Sunday</div>
+          <div class="day-header">Monday</div>
+          <div class="day-header">Tuesday</div>
+          <div class="day-header">Wednesday</div>
+          <div class="day-header">Thursday</div>
+          <div class="day-header">Friday</div>
+          <div class="day-header">Saturday</div>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </section>
+    </div>
+  </div>
+
+  <div class="search-modal" id="searchModal">
+    <div class="search-modal-content">
+      <div class="search-modal-header">
+        <h2>Search Events</h2>
+        <button class="search-modal-close" id="closeSearchBtn" aria-label="Close">&times;</button>
+      </div>
+      <div class="search-modal-body">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search for events, tasks, reminders...">
+        <div class="search-results" id="searchResults">
+          <p class="search-placeholder">Enter a search term to find events</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="add-modal" id="addEntryModal">
+    <div class="add-modal-content">
+      <div class="add-modal-header">
+        <h2>Add Entry</h2>
+        <button class="add-modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="add-modal-body">
+        <form id="entryForm">
+          <input type="hidden" id="entryId">
+          <input type="hidden" id="entryType" value="task">
+          <div class="form-group">
+            <label for="entryTitle">Title</label>
+            <input type="text" id="entryTitle" name="entryTitle" placeholder="Enter a title" required>
+          </div>
+          <div id="dateTimeGroup">
+            <div class="form-group">
+              <label for="entryDate">Date</label>
+              <input type="date" id="entryDate" name="entryDate" required>
+            </div>
+            <div class="form-group">
+              <label for="entryTime">Time</label>
+              <input type="time" id="entryTime" name="entryTime" required>
+            </div>
+          </div>
+          <div class="form-group" id="priorityGroup" style="display: none;">
+            <label for="entryPriority">Priority</label>
+            <select id="entryPriority" name="entryPriority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div class="form-group" id="emailGroup" style="display: none;">
+            <label for="entryEmail">Email Address</label>
+            <input type="email" id="entryEmail" name="entryEmail" placeholder="collaborator@email.com">
+          </div>
+          <div class="form-group">
+            <label for="entryDetails">Details</label>
+            <textarea id="entryDetails" name="entryDetails" rows="4" placeholder="Add details"></textarea>
+          </div>
+          <button type="submit" class="footer-button save-btn">Save Entry</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Contact Us</h4>
+        <ul class="footer-links">
+          <li><a href="mailto:jalexis@ttu.edu">jalexis@ttu.edu</a></li>
+          <li><a href="mailto:milreza@ttu.edu">milreza@ttu.edu</a></li>
+          <li><a href="mailto:nshellim@ttu.edu">nshellim@ttu.edu</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <p class="footer-thanks">Thank you for using Booked & Busy!</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

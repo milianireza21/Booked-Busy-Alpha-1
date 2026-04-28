@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booked & Busy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body id="indexPage">
+  <!-- Login Modal -->
+  <div class="auth-modal" id="authModal">
+    <div class="auth-modal-content">
+      <div class="auth-modal-header">
+        <div class="logo-block">
+          <div class="logo-mark">B</div>
+          <div>
+            <p class="logo-line">Booked & Busy</p>
+          </div>
+        </div>
+      </div>
+      <div class="auth-modal-body">
+        <form id="authForm">
+          <h2 id="authFormTitle">Sign In</h2>
+          <div class="form-group">
+            <label for="authEmail">Email</label>
+            <input type="email" id="authEmail" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="authPassword">Password</label>
+            <input type="password" id="authPassword" name="password" placeholder="Enter your password" required />
+          </div>
+          <div class="form-group" id="confirmPasswordGroup" style="display: none;">
+            <label for="authConfirmPassword">Confirm Password</label>
+            <input type="password" id="authConfirmPassword" name="confirmPassword" placeholder="Confirm your password" />
+          </div>
+          <button type="submit" class="hero-btn" id="authSubmitBtn">Sign In</button>
+          <p class="auth-toggle">
+            Don't have an account? <button type="button" id="switchToSignup" class="link-button">Sign Up</button>
+          </p>
+          <p class="auth-toggle" id="signupToggle" style="display: none;">
+            Already have an account? <button type="button" id="switchToSignin" class="link-button">Sign In</button>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Landing Page (hidden after login) -->
+  <div class="landing-shell" id="landingShell" style="display: none;">
+    <header class="landing-header">
+      <div class="logo-block">
+        <div class="logo-mark">B</div>
+        <div>
+          <p class="logo-line">Booked & Busy</p>
+          <p class="logo-subtitle">Your soft pink planner for every day.</p>
+        </div>
+      </div>
+      <nav class="landing-nav" aria-label="Main navigation">
+        <button class="auth-logout-btn" type="button" id="logoutBtn">Log Out</button>
+      </nav>
+    </header>
+
+    <main class="landing-main">
+      <section class="landing-copy">
+        <p class="eyebrow">Cute, calm, and completely clickable</p>
+        <h1>Plan your year with a pink glow.</h1>
+        <p class="hero-text">A sleek, polished calendar experience where every reminder, task, and event appears in the same sweet style. Open year, month, week, or day views with one tap.</p>
+        <div class="hero-actions">
+          <a class="hero-btn" href="p1year.html">Open Calendar</a>
+          <a class="hero-secondary" href="p2month.html">Month View</a>
+        </div>
+      </section>
+
+      <section class="landing-preview">
+        <div class="preview-card">
+          <p class="preview-title">Full month view</p>
+          <p>See every day in a soft pastel grid and open any date to add reminders.</p>
+        </div>
+        <div class="preview-card preview-card-soft">
+          <p class="preview-title">Sweet week planning</p>
+          <p>Track your week with colored event cards and quick day links.</p>
+        </div>
+        <div class="preview-card preview-card-soft">
+          <p class="preview-title">Custom style</p>
+          <p>Upload a background, personalize button colors, and keep your planner looking fresh.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>Contact Us</h4>
+          <ul class="footer-links">
+            <li><a href="mailto:jalexis@ttu.edu">jalexis@ttu.edu</a></li>
+            <li><a href="mailto:milreza@ttu.edu">milreza@ttu.edu</a></li>
+            <li><a href="mailto:nshellim@ttu.edu">nshellim@ttu.edu</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <p class="footer-thanks">Thank you for using Booked & Busy!</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>
