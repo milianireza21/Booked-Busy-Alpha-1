@@ -254,8 +254,20 @@
             </div>
             <div class="form-group">
               <label for="entryTime">Time</label>
-              <input type="time" id="entryTime" name="entryTime" required>
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <input type="time" id="entryTime" name="entryTime">
+                <label style="display: flex; align-items: center; gap: 6px; margin: 0; white-space: nowrap;">
+                  <input type="checkbox" id="allDayCheckbox" name="allDay">
+                  <span>All Day</span>
+                </label>
+              </div>
             </div>
+          </div>
+          <div class="form-group" id="calendarSelectGroup">
+            <label for="entryCalendar">Calendar</label>
+            <select id="entryCalendar" name="entryCalendar">
+              <option value="">Select a calendar...</option>
+            </select>
           </div>
           <div class="form-group" id="priorityGroup" style="display: none;">
             <label for="entryPriority">Priority</label>

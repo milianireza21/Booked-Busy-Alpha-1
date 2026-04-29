@@ -1076,13 +1076,30 @@ function openEntryModal(type, entry = null) {
   const priorityInput = document.getElementById('entryPriority');
   const emailInput = document.getElementById('entryEmail');
   const emailLabel = document.querySelector('label[for="entryEmail"]');
+  const allDayCheckbox = document.getElementById('allDayCheckbox');
+  const calendarSelect = document.getElementById('entryCalendar');
   
   // Show/hide fields based on type
   const dateTimeGroup = document.getElementById('dateTimeGroup');
   const emailGroup = document.getElementById('emailGroup');
   const priorityGroup = document.getElementById('priorityGroup');
+  const calendarSelectGroup = document.getElementById('calendarSelectGroup');
   const detailsGroup = document.querySelector('.form-group:has(textarea#entryDetails)');
   
+  // Populate calendar selector
+  if (calendarSelect) {
+    calendarSelect.innerHTML = '<option value="">Select a calendar...</option>';
+    calendars.forEach(cal => {
+      const option = document.createElement('option');
+      option.value = cal.id;
+      option.textContent = cal.name;
+      if (cal.id === currentCalendarId) {
+        option.selected = true;
+      }
+      calendarSelect.appendChild(option);
+    });
+  }
+
   if (type === 'collaborator') {
     if (titleLabel) titleLabel.textContent = 'Calendar Name (optional)';
     if (emailLabel) emailLabel.textContent = 'Collaborator Email';
@@ -1090,6 +1107,7 @@ function openEntryModal(type, entry = null) {
     if (emailGroup) emailGroup.style.display = 'block';
     if (priorityGroup) priorityGroup.style.display = 'none';
     if (detailsGroup) detailsGroup.style.display = 'none';
+    if (calendarSelectGroup) calendarSelectGroup.style.display = 'none';
   } else {
     if (titleLabel) titleLabel.textContent = 'Title';
     if (emailLabel) emailLabel.textContent = 'Email Address';
@@ -1097,6 +1115,7 @@ function openEntryModal(type, entry = null) {
     if (emailGroup) emailGroup.style.display = 'none';
     if (priorityGroup) priorityGroup.style.display = 'block';
     if (detailsGroup) detailsGroup.style.display = 'block';
+    if (calendarSelectGroup) calendarSelectGroup.style.display = 'block';
   }
 
   if (typeInput) typeInput.value = type;
@@ -1107,7 +1126,19 @@ function openEntryModal(type, entry = null) {
     if (timeInput && entry.time) timeInput.value = entry.time;
     if (detailsInput) detailsInput.value = entry.details;
     if (priorityInput && entry.priority) priorityInput.value = entry.priority;
+    if (calendarSelect && entry.calendarId) calendarSelect.value = entry.calendarId;
+    if (allDayCheckbox) allDayCheckbox.checked = entry.time === 'All Day';
   } else {
+    // Set default date to today
+    if (dateInput) {
+      const today = new Date();
+      const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      dateInput.value = dateString;
+    }
+    // Set default time to 10:00
+    if (timeInput) {
+      timeInput.value = '10:00';
+    }
     if (idInput) idInput.value = '';
     if (titleInput) {
       if (type === 'collaborator' && currentCalendarId) {
@@ -1117,19 +1148,25 @@ function openEntryModal(type, entry = null) {
         titleInput.value = '';
       }
     }
-    // Pre-fill date with current selected date from query parameter
-    if (dateInput) {
-      const currentDate = parseQuery('date');
-      if (currentDate) {
-        dateInput.value = currentDate;
-      } else {
-        dateInput.value = '';
-      }
+    // Check if opening for a specific date from query parameter
+    const queryDate = parseQuery('date');
+    if (queryDate && dateInput) {
+      dateInput.value = queryDate;
     }
-    if (timeInput) timeInput.value = '';
     if (detailsInput) detailsInput.value = '';
     if (priorityInput) priorityInput.value = 'medium';
     if (emailInput) emailInput.value = '';
+    if (allDayCheckbox) allDayCheckbox.checked = false;
+  }
+
+  // Add all-day checkbox toggle handler
+  if (allDayCheckbox && timeInput) {
+    allDayCheckbox.addEventListener('change', function() {
+      timeInput.disabled = this.checked;
+      if (this.checked) {
+        timeInput.value = '';
+      }
+    }, { once: true });
   }
 }
 
@@ -1147,9 +1184,11 @@ function handleEntryForm(event) {
   const dateInput = document.getElementById('entryDate');
   const timeInput = document.getElementById('entryTime');
   const date = dateInput?.value;
-  const time = timeInput?.value;
+  let time = timeInput?.value;
   const details = document.getElementById('entryDetails')?.value.trim();
   const priority = document.getElementById('entryPriority')?.value || 'medium';
+  const allDayCheckbox = document.getElementById('allDayCheckbox');
+  const calendarSelect = document.getElementById('entryCalendar');
 
   if (type === 'collaborator') {
     const email = document.getElementById('entryEmail')?.value.trim();
@@ -1174,12 +1213,18 @@ function handleEntryForm(event) {
       return;
     }
   } else {
-    if (!title || !date || !time) {
+    // Handle all-day checkbox
+    if (allDayCheckbox && allDayCheckbox.checked) {
+      time = 'All Day';
+    }
+    
+    if (!title || !date || (!time && !(allDayCheckbox?.checked))) {
       showNotification('Please fill in all required fields', 'error');
       return;
     }
 
-    const calendarId = currentCalendarId || calendars[0]?.id || 'personal';
+    // Get calendar ID from selector or use current
+    let calendarId = calendarSelect?.value || currentCalendarId || calendars[0]?.id || 'personal';
 
     if (entryId) {
       const existingIndex = entries.findIndex((item) => item.id === entryId);
@@ -1296,7 +1341,7 @@ function setupSearch() {
               (entry) => {
                 const priorityColor = getPriorityColor(entry.priority);
                 return `
-                <div class="event-card" style="border-left: 4px solid ${priorityColor};">
+                <div class="event-card search-result" data-entry-id="${entry.id}" data-entry-date="${entry.date}" style="border-left: 4px solid ${priorityColor}; cursor: pointer;">
                   <h3>${entry.title}</h3>
                   <p>${entry.details}</p>
                   <span>${entry.type} • ${entry.date} • ${entry.time}</span>
@@ -1307,6 +1352,36 @@ function setupSearch() {
             .join('')
         : '<p class="search-placeholder">No results found.</p>'
       : '<p class="search-placeholder">Enter a search term to find events</p>';
+    
+    // Re-attach event listeners to search results
+    attachSearchResultHandlers();
+  });
+}
+
+function attachSearchResultHandlers() {
+  const searchResults = document.querySelectorAll('.event-card.search-result');
+  searchResults.forEach((card) => {
+    card.addEventListener('click', () => {
+      const entryDate = card.dataset.entryDate;
+      if (entryDate) {
+        // Close search modal
+        const searchModal = document.getElementById('searchModal');
+        if (searchModal) searchModal.classList.remove('active');
+        
+        // Navigate to day view with the entry date
+        const dayPage = new URL(window.location).pathname.endsWith('p1year.html') ? 'p4day.html' : 
+                        new URL(window.location).pathname.endsWith('p2month.html') ? 'p4day.html' :
+                        new URL(window.location).pathname.endsWith('p3week.html') ? 'p4day.html' : 'p4day.html';
+        window.location.href = `${dayPage}?date=${entryDate}`;
+      }
+    });
+    
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.click();
+      }
+    });
   });
 }
 
